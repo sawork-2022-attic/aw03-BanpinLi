@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" xmlns:th="http://www.w3.org/1999/html">
+<html lang="zh-CN" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -102,81 +102,91 @@
                         <a class="nav-link" data-toggle="pill" href="#nav-tab-bank">
                             <i class="fa fa-tags "></i> Category 5</a></li>
                 </ul>
+                <!--已有商品展示-->
                 <span id="items">
-	<div class="row">
-<div class="col-md-3" th:each="product : ${products}">
-	<figure class="card card-product">
-		<span class="badge-new"> NEW </span>
-		<div class="img-wrap">
-			<img th:src="@{${'/images/items/'+ product.image}}">
-			<a class="btn-overlay" href="#"><i class="fa fa-search-plus"></i> Quick view</a>
-		</div>
-		<figcaption class="info-wrap">
-			<a href="#" class="title"><span th:text="${product.name}"></span></a>
-			<div class="action-wrap">
-				<a href="#" class="btn btn-primary btn-sm float-right"> <i class="fa fa-cart-plus"></i> Add </a>
-				<div class="price-wrap h5">
-					<span class="price-new">$1280</span>
-				</div> <!-- price-wrap.// -->
-			</div> <!-- action-wrap -->
-		</figcaption>
-	</figure> <!-- card // -->
-</div> <!-- col // -->
-            </div>
-
-            </span>
+                    <div class="row">
+                        <div class="col-md-3" th:each="product : ${products}">
+                            <figure class="card card-product">
+                                <span class="badge-new"> NEW </span>
+                                <div class="img-wrap">
+                                    <img th:src="@{${'/images/items/'+ product.image}}">
+                                    <a class="btn-overlay" href="#"><i class="fa fa-search-plus"></i> Quick view</a>
+                                </div>
+                                <figcaption class="info-wrap">
+                                    <a href="#" class="title"><span th:text="${product.name}"></span></a>
+                                    <div class="action-wrap">
+                                        <!--TODO: 点击按钮实现新增商品-->
+                                        <a href="#" th:href="@{/save/{productId}(productId=${product.id})}"
+                                           class="btn btn-primary btn-sm float-right">
+                                            <i class="fa fa-cart-plus"></i>&nbsp;Add&nbsp;
+                                        </a>
+                                        <div class="price-wrap h5">
+                                            <span class="price-new">$1280</span>
+                                        </div> <!-- price-wrap.// -->
+                                    </div> <!-- action-wrap -->
+                                </figcaption>
+                            </figure> <!-- card // -->
+                        </div> <!-- col // -->
+                    </div>
+                </span>
             </div>
             <div class="col-md-4">
                 <div class="card">
-	<span id="cart">
-<table class="table table-hover shopping-cart-wrap">
-<thead class="text-muted">
-<tr>
-  <th scope="col">Item</th>
-  <th scope="col" width="120">Qty</th>
-  <th scope="col" width="120">Price</th>
-  <th scope="col" class="text-right" width="200">Delete</th>
-</tr>
-</thead>
-<tbody>
-
-<tr th:each="item : ${cart.items}">
-	<td>
-<figure class="media">
-	<div class="img-wrap"><img th:src="@{${'/images/items/'+ item.product.image}}"
-                               class="img-thumbnail img-xs"></div>
-	<figcaption class="media-body">
-		<h6 class="title text-truncate"><span th:text="${item.product.name}"></span></h6>
-	</figcaption>
-</figure> 
-	</td>
-	<td class="text-center"> 
-		<div class="m-btn-group m-btn-group--pill btn-group mr-2" role="group" aria-label="...">
-																		<button type="button"
-                                                                                class="m-btn btn btn-default"><i
-                                                                                class="fa fa-minus"></i></button>
-																		<button type="button"
-                                                                                class="m-btn btn btn-default"
-                                                                                disabled><span th:text="${item.quantity}"></span></button>
-																		<button type="button"
-                                                                                class="m-btn btn btn-default"><i
-                                                                                class="fa fa-plus"></i></button>
-																	</div>
-	</td>
-	<td> 
-		<div class="price-wrap"> 
-			<var class="price"><span th:text="${item.product.price}"></span></var>
-		</div> <!-- price-wrap .// -->
-	</td>
-	<td class="text-right"> 
-	<a href="" class="btn btn-outline-danger"> <i class="fa fa-trash"></i></a>
-	</td>
-</tr>
-</tbody>
-</table>
-</span>
+                    <span id="cart">
+                        <table class="table table-hover shopping-cart-wrap">
+                            <thead class="text-muted">
+                            <tr>
+                              <th scope="col">Item</th>
+                              <th scope="col" width="120">Qty</th>
+                              <th scope="col" width="120">Price</th>
+                              <th scope="col" class="text-right" width="200">Delete</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="item : ${cart.items}">
+                                <td>
+                                    <figure class="media">
+                                        <div class="img-wrap"><img th:src="@{${'/images/items/'+ item.product.image}}"
+                                                                   class="img-thumbnail img-xs"></div>
+                                        <figcaption class="media-body">
+                                            <h6 class="title text-truncate"><span th:text="${item.product.name}"></span></h6>
+                                        </figcaption>
+                                    </figure>
+                                </td>
+                                <!--TODO: 商品的增加和减少-->
+                                <td class="text-center">
+                                    <div class="m-btn-group m-btn-group--pill btn-group mr-2" role="group" aria-label="...">
+                                        <a href="#" th:href="@{/update/decr/{productId}(productId=${item.product.id})}">
+                                            <button type="button" class="m-btn btn btn-default">
+                                                <i class="fa fa-minus"></i>
+                                            </button>
+                                        </a>
+                                        <button type="button" class="m-btn btn btn-default" disabled>
+                                            <span th:text="${item.quantity}"></span>
+                                        </button>
+                                        <a href="#" th:href="@{/update/incr/{productId}(productId=${item.product.id})}">
+                                            <button type="button" class="m-btn btn btn-default">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                        </a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="price-wrap">
+                                        <var class="price"><span th:text="${item.product.price}"></span></var>
+                                    </div> <!-- price-wrap .// -->
+                                </td>
+                                <!--TODO: 移除商品-->
+                                <td class="text-right">
+                                    <a href="#" th:href="@{/delete/{productId}(productId=${item.product.id})}" class="btn btn-outline-danger"> <i class="fa fa-trash"></i></a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </span>
                 </div> <!-- card.// -->
                 <div class="box">
+                    <!--商品的总价格等信息-->
                     <dl class="dlist-align">
                         <dt>Tax:</dt>
                         <dd class="text-right">12%</dd>
@@ -193,13 +203,14 @@
                         <dt>Total:</dt>
                         <dd class="text-right h4 b"> $215</dd>
                     </dl>
+                    <!--TODO: 商品结算-->
                     <div class="row">
                         <div class="col-md-6">
-                            <a href="#" class="btn  btn-default btn-error btn-lg btn-block"><i
+                            <a href="#" th:href="@{/cancel}" class="btn  btn-default btn-error btn-lg btn-block"><i
                                     class="fa fa-times-circle "></i> Cancel </a>
                         </div>
                         <div class="col-md-6">
-                            <a href="#" class="btn  btn-primary btn-lg btn-block"><i class="fa fa-shopping-bag"></i>
+                            <a href="#" th:href="@{/charge}" class="btn  btn-primary btn-lg btn-block"><i class="fa fa-shopping-bag"></i>
                                 Charge </a>
                         </div>
                     </div>

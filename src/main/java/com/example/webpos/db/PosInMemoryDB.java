@@ -1,6 +1,7 @@
 package com.example.webpos.db;
 
 import com.example.webpos.model.Cart;
+import com.example.webpos.model.Item;
 import com.example.webpos.model.Product;
 import org.springframework.stereotype.Component;
 
@@ -37,6 +38,31 @@ public class PosInMemoryDB implements PosDB {
             }
         }
         return null;
+    }
+
+    @Override
+    public boolean deleteItem(Item item) {
+        return cart.deleteItem(item);
+    }
+
+    @Override
+    public boolean updateItem(Item item) {
+        return cart.updateItem(item);
+    }
+
+    @Override
+    public boolean insertItem(Item item) {
+        return cart.addItem(item);
+    }
+
+    @Override
+    public Item queryItemByProductId(String productId) {
+        return cart.queryItemByProductId(productId);
+    }
+
+    @Override
+    public boolean deleteAllItem() {
+        return cart.clear();
     }
 
     private PosInMemoryDB() {

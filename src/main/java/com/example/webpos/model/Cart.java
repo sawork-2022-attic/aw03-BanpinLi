@@ -14,6 +14,40 @@ public class Cart {
         return items.add(item);
     }
 
+    public boolean updateItem(Item item) {
+        for(Item i : items) {
+            if(i.equals(item)) {
+                i.setQuantity(item.getQuantity());
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean deleteItem(Item item) {
+        for(int i = 0;i < items.size();i++) {
+            if(items.get(i).equals(item)) {
+                items.remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Item queryItemByProductId(String productId) {
+        for(Item item : items) {
+            if(item.getProduct().getId().equals(productId)) {
+                return item;
+            }
+        }
+        return null;
+    }
+
+    public boolean clear() {
+        items.clear();
+        return true;
+    }
+
     @Override
     public String toString() {
         if (items.size() ==0){

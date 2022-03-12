@@ -45,18 +45,65 @@ public class PosServiceImp implements PosService {
     }
 
     @Override
-    public boolean add(Product product, int amount) {
-        return false;
+    public boolean update(Product product, int amount) {
+        if(product == null) return false;
+
+        return posDB.updateItem(new Item(product, amount));
     }
 
     @Override
-    public boolean add(String productId, int amount) {
+    public boolean updateIncrement(String productId) {
+        Item item = posDB.queryItemByProductId(productId);
+        if(item == null) return false;
+
+        return update(productId, item.getQuantity() + 1);
+    }
+
+    @Override
+    public boolean updateDecrease(String productId) {
+        Item item = posDB.queryItemByProductId(productId);
+        if(item == null) return false;
+
+        if(item.getQuantity() == 1) return false;
+
+        return update(productId, item.getQuantity() - 1);
+    }
+
+    @Override
+    public boolean update(String productId, int amount) {
 
         Product product = posDB.getProduct(productId);
-        if (product == null) return false;
+        if(product == null) return false;
 
-        this.getCart().addItem(new Item(product, amount));
-        return true;
+        return update(product, amount);
+    }
+
+    @Override
+    public boolean remove(String productId) {
+        Product product = posDB.getProduct(productId);
+        if(product == null) return false;
+
+        Item item = new Item(product, 1);
+        return posDB.deleteItem(item);
+    }
+
+    @Override
+    public boolean save(String productId) {
+        Item item = posDB.queryItemByProductId(productId);
+        if(item != null) {
+            return update(productId, item.getQuantity() + 1);
+        }
+
+        Product product = posDB.getProduct(productId);
+        if(product == null) return false;
+
+        item = new Item(product, 1);
+        return posDB.insertItem(item);
+    }
+
+    @Override
+    public boolean emptyCart() {
+        return posDB.deleteAllItem();
     }
 
     @Override
