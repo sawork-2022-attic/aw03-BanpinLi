@@ -1,21 +1,14 @@
-# WebPOS
+## 对于MVC架构模式的理解
+### 1、M-Model
 
-The demo shows a simple POS system in MVC architecture, which replaces the shell interface in aw02 with a pos web ui (https://github.com/bshbsh404/simple-pos-ui
-).
+Model指的是数据模型，是对客观事物和逻辑的抽象。在Model层面存在大量的实体对象，这些实体对象可以映射到现实，例如数据库中的一张表，建立起和现实之间的关联；同时存在大量的对实体对象进行操作的逻辑，将这些逻辑组合在一起，就形成了一个又一个的业务，完成对于实体对象的增删改查操作。
 
-![](screenshot.png)
+### 2、V-View
+View指的是视图，更加通俗的说法就是展示给用户的界面。而这样的一个界面其实就是将特定的model以一种更加具体形象的方式进行了表现，以便于能够和用户进行更好的交互，收集到用户的操作信息，并可以将这些信息以某种方式返回。view层的特点有，view层通常不会直接干预到model层中的数据，而是以其他的方式来间接访问或者改变model中的数据，同时view由于是负责进行展示的部分，所以其变化也是最多的，但是不变的是都是以model中的数据来作为数据的来源。
 
-To run
+### 3、C-Controller
+Controller指的是控制器，主要的作用是作为model和view的桥梁。前面说到view通常不会直接操作到model中的数据，而是接收数据或是发送数据，而controller层就是用来接受view层发送的数据和请求，并通过判断来决定将这些数据交由哪些model进行处理，同时将处理的结果返回给view，这就建立起了view和model之间的关联。
 
-```shell
-mvn clean spring-boot:run
-```
-
-Currently, it just lists the products for sale with a cart with one item (just for demonstration). 
-
-Please read the tutorial at  https://www.baeldung.com/spring-boot-crud-thymeleaf and make the POS system robust and fully functional. You can also refer to other articles, for instance https://www.baeldung.com/tag/thymeleaf/ .
-
-
-
-And please elaborate your understanding in MVC architecture via this homework in your README.md.
+### 4、MVC架构模式的好处
+MVC架构模式将数据的展示和数据的处理两个大的方面的东西进行了分离，从逻辑上来说，两个部分并没有直接的关联，当编写代码的时候，能够分开考虑提高开发效率和代码的可重用性，实现职责的专一化。同时两者又不是完全分离的，而是依赖于中的Controller来实现两者的数据交互，所以当需求发生变化时，可以通过改变controller来改变view和model之间的交互关系，更加便于维护。
 
